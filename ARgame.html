@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MindAR.js 多目标示例</title>
+    <!-- 引入 A-Frame -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <!-- 引入 MindAR.js 与 A-Frame 集成的库 -->
+    <script src="https://unpkg.com/mind-ar/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      a-scene {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- A-Frame 场景，启用 MindAR.js 的图片追踪 -->
+    <a-scene mindar-image="imageTargetSrc: targets.mind; maxTrack: 3;uiLoading: false; uiScanning: false;" embedded>
+      <a-assets>
+        <!-- 目标文件，包含所有图片目标的数据信息 -->
+        <a-asset-item id="targets" src="targets.mind"></a-asset-item>
+      </a-assets>
+
+      <!-- AR 摄像头 -->
+      <a-camera position="0 0 0"></a-camera>
+      
+      <!-- 第一个目标：显示红色球体 -->
+      <a-entity mindar-image-target="targetIndex: 0" visible="true">
+        <!-- 使用 a-sphere 来显示球体，radius 为半径 -->
+        <a-sphere position="0 0 0" radius="0.4" color="#FF0000"></a-sphere>
+      </a-entity>
+
+      <!-- 第二个目标：显示绿色球体 -->
+      <a-entity mindar-image-target="targetIndex: 1" visible="true">
+        <a-sphere position="0 0 0" radius="0.4" color="#00FF00"></a-sphere>
+      </a-entity>
+
+      <!-- 第二个目标：显示绿色球体 -->
+      <a-entity mindar-image-target="targetIndex: 2" visible="true">
+        <a-sphere position="0 0 0" radius="0.4" color="#0000FF"></a-sphere>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
