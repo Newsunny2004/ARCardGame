@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>MindAR.js 多目标 + 3D 模型</title>
-
-  <!-- 1. 先加载 A-Frame -->
-  <script src="https://aframe.io/releases/1.4.0/aframe.min.js" defer></script>
-  <!-- 2. 再加载 MindAR A-Frame 集成库 -->
-  <script src="https://unpkg.com/mind-ar/dist/mindar-image-aframe.prod.js" defer></script>
-
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/mind-ar/dist/mindar-image-aframe.prod.js"></script>
   <style>
     html,
     body {
@@ -31,48 +27,34 @@
 </head>
 
 <body>
-  <!-- mindar-image 里不隐藏 UI，便于调试授权和加载状态 -->
-  <a-scene mindar-image="imageTargetSrc: targets.mind; maxTrack: 3;" embedded>
+  <a-scene mindar-image="imageTargetSrc: targets.mind; maxTrack: 3; uiLoading: false; uiScanning: false;" embedded>
     <a-assets>
-      <!-- 预加载 MindAR 目标文件 -->
-      <a-asset-item id="targets" src="targets.mind"></a-asset-item>
-      <!-- 预加载三种不同材质/模型 -->
-      <a-asset-item id="model0" src="models\model0.glb"></a-asset-item>
-      <a-asset-item id="model1" src="models\model1.glb"></a-asset-item>
-      <a-asset-item id="model2" src="models\model2.glb"></a-asset-item>
+      <!-- 加载你的 GLB 模型 -->
+      <a-asset-item id="model0" src="models\model2.glb"></a-asset-item>
+      <a-asset-item id="model1" src="models\model0.glb"></a-asset-item>
+      <a-asset-item id="model2" src="models\model1.glb"></a-asset-item>
     </a-assets>
 
-    <!-- AR 摄像头 -->
     <a-camera position="0 0 0"></a-camera>
 
-    <!-- targetIndex:0 对应 targets.mind 里的第一个图片 -->
+    <!-- 目标 0：加载第一个 3D 模型 -->
     <a-entity mindar-image-target="targetIndex: 0">
-      <a-entity gltf-model="#model0" scale="0.2 0.2 0.2" rotation="0 180 0" position="0 0 0"></a-entity>
+      <a-entity gltf-model="#model0" scale="0.2 0.2 0.2" position="0 0 0" rotation="0 180 0">
+      </a-entity>
     </a-entity>
 
+    <!-- 目标 1：加载第二个 3D 模型 -->
     <a-entity mindar-image-target="targetIndex: 1">
-      <a-entity gltf-model="#model1" scale="0.2 0.2 0.2" rotation="0 180 0" position="0 0 0"></a-entity>
+      <a-entity gltf-model="#model1" scale="0.2 0.2 0.2" position="0 0 0" rotation="0 180 0">
+      </a-entity>
     </a-entity>
 
+    <!-- 目标 2：加载第三个 3D 模型 -->
     <a-entity mindar-image-target="targetIndex: 2">
-      <a-entity gltf-model="#model2" scale="0.2 0.2 0.2" rotation="0 180 0" position="0 0 0"></a-entity>
+      <a-entity gltf-model="#model2" scale="0.2 0.2 0.2" position="0 0 0" rotation="0 180 0">
+      </a-entity>
     </a-entity>
   </a-scene>
-
-  <!-- 补丁：给 iOS Safari 的 <video> 打上 playsinline -->
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      // 延迟等待 MindAR 插入 <video>
-      setTimeout(() => {
-        const video = document.querySelector("video");
-        if (video) {
-          video.setAttribute("playsinline", "");
-          video.setAttribute("webkit-playsinline", "");
-          video.muted = true; // iOS autoplay 通常要求 muted
-        }
-      }, 500);
-    });
-  </script>
 </body>
 
 </html>
