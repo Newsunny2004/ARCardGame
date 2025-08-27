@@ -6,6 +6,28 @@
   <title>MindAR.js 多目标 + 3D 模型</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/mind-ar/dist/mindar-image-aframe.prod.js"></script>
+  <script>
+    // 鼠标滚轮缩放组件（桌面端）
+    AFRAME.registerComponent('wheel-scale', {
+      schema: { min: { type: 'number', default: 0.2 }, max: { type: 'number', default: 2.5 }, step: { type: 'number', default: 0.1 } },
+      init: function () {
+        this.onWheel = this.onWheel.bind(this);
+        window.addEventListener('wheel', this.onWheel, { passive: false });
+      },
+      remove: function () {
+        window.removeEventListener('wheel', this.onWheel);
+      },
+      onWheel: function (e) {
+        // 阻止页面滚动
+        e.preventDefault();
+        const object3D = this.el.object3D;
+        const current = object3D.scale.x; // 等比缩放
+        const delta = e.deltaY > 0 ? -this.data.step : this.data.step;
+        const next = Math.min(this.data.max, Math.max(this.data.min, current + delta));
+        object3D.scale.set(next, next, next);
+      }
+    });
+  </script>
   <style>
     html,
     body {
@@ -44,7 +66,7 @@
 
     <!-- 目标 0：加载第一个 3D 模型 -->
     <a-entity mindar-image-target="targetIndex: 0">
-      <a-entity gltf-model="#model0" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0">
+      <a-entity gltf-model="#model0" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale>
       </a-entity>
       <!-- 目标0 文本描述：贴在卡片平面，下方偏右，略微抬高Z避免Z-Fighting -->
       <a-text
@@ -55,7 +77,7 @@
 
     <!-- 目标 1：加载第二个 3D 模型 -->
     <a-entity mindar-image-target="targetIndex: 1">
-      <a-entity gltf-model="#model1" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0">
+      <a-entity gltf-model="#model1" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale>
       </a-entity>
       <!-- 目标1 文本描述：贴在卡片平面，下方偏右，略微抬高Z避免Z-Fighting -->
       <a-text
@@ -66,7 +88,7 @@
 
     <!-- 目标 2：加载第三个 3D 模型 -->
     <a-entity mindar-image-target="targetIndex: 2">
-      <a-entity gltf-model="#model2" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0">
+      <a-entity gltf-model="#model2" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale>
       </a-entity>
       <!-- 目标2 文本描述：贴在卡片平面，下方偏右，略微抬高Z避免Z-Fighting -->
       <a-text
