@@ -110,6 +110,10 @@
       <a-asset-item id="model0" src="models/model2.glb"></a-asset-item>
       <a-asset-item id="model1" src="models/model0.glb"></a-asset-item>
       <a-asset-item id="model2" src="models/model1.glb"></a-asset-item>
+      <!-- 加载 imgPresent 文件夹中的图片 -->
+      <a-asset-item id="chair" src="imgPresent/chair.jpg"></a-asset-item>
+      <a-asset-item id="light" src="imgPresent/light.jpg"></a-asset-item>
+      <a-asset-item id="sofa" src="imgPresent/sofa.jpg"></a-asset-item>
     </a-assets>
 
     <a-camera position="0 0 0"></a-camera>
@@ -122,33 +126,27 @@
     <a-entity mindar-image-target="targetIndex: 0">
       <a-entity gltf-model="#model0" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale pinch-scale>
       </a-entity>
-      <!-- 目标0 文本描述：贴在卡片平面，下方偏右，略微抬高Z避免Z-Fighting -->
-      <a-text
-        value="Test: Modular furniture with ergonomic curves and natural wood grain. Easy to assemble and maintain. Designed for compact homes, balancing structural strength and visual lightness."
-        color="#ffffff" width="1.18" wrap-count="28" anchor="center" baseline="top" side="double"
-        position="0.45 -0.48 0.01" rotation="0 0 0"></a-text>
+      <!-- 目标0 图片：使用 chair.jpg 替换原有图片 -->
+      <a-image src="imgPresent/chair.jpg" width="1.18" height="0.6" anchor="center" baseline="top"
+        position="0.45 -0.48 0.01" rotation="0 0 0"></a-image>
     </a-entity>
 
     <!-- 目标 1：加载第二个 3D 模型 -->
     <a-entity mindar-image-target="targetIndex: 1">
       <a-entity gltf-model="#model1" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale pinch-scale>
       </a-entity>
-      <!-- 目标1 文本描述：贴在卡片平面，下方偏右，略微抬高Z避免Z-Fighting -->
-      <a-text
-        value="Test: Modular furniture with ergonomic curves and natural wood grain. Easy to assemble and maintain. Designed for compact homes, balancing structural strength and visual lightness."
-        color="#ffffff" width="1.18" wrap-count="28" anchor="center" baseline="top" side="double"
-        position="0.45 -0.48 0.01" rotation="0 0 0"></a-text>
+      <!-- 目标1 图片：使用 light.jpg 替换原有图片 -->
+      <a-image src="imgPresent/light.jpg" width="1.18" height="0.6" anchor="center" baseline="top"
+        position="0.45 -0.48 0.01" rotation="0 0 0"></a-image>
     </a-entity>
 
     <!-- 目标 2：加载第三个 3D 模型 -->
     <a-entity mindar-image-target="targetIndex: 2">
       <a-entity gltf-model="#model2" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale pinch-scale>
       </a-entity>
-      <!-- 目标2 文本描述：贴在卡片平面，下方偏右，略微抬高Z避免Z-Fighting -->
-      <a-text
-        value="Test: Modular furniture with ergonomic curves and natural wood grain. Easy to assemble and maintain. Designed for compact homes, balancing structural strength and visual lightness."
-        color="#ffffff" width="1.18" wrap-count="28" anchor="center" baseline="top" side="double"
-        position="0.45 -0.48 0.01" rotation="0 0 0"></a-text>
+      <!-- 目标2 图片：使用 sofa.jpg 替换原有图片 -->
+      <a-image src="imgPresent/sofa.jpg" width="1.18" height="0.6" anchor="center" baseline="top"
+        position="0.45 -0.48 0.01" rotation="0 0 0"></a-image>
     </a-entity>
   </a-scene>
 </body>
