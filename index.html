@@ -3,13 +3,17 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>MindAR.js 多目标 + 3D 模型</title>
+  <title>MindAR.js Multi-target + 3D Models</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/mind-ar/dist/mindar-image-aframe.prod.js"></script>
   <script>
-    // 图片加载调试
+    // Image loading debug
     window.addEventListener('load', function () {
-      const images = ['chair', 'light', 'sofa'];
+      const images = [
+        'chair', 'light', 'sofa',
+        'designer1', 'designer2', 'designer3', 'designer4',
+        'designer5', 'designer6', 'designer7', 'designer8'
+      ];
       images.forEach(id => {
         const img = document.getElementById(id);
         if (img) {
@@ -23,9 +27,13 @@
       });
     });
 
-    // 鼠标滚轮缩放组件（桌面端）
+    // Mouse wheel scaling component (desktop)
     AFRAME.registerComponent('wheel-scale', {
-      schema: { min: { type: 'number', default: 0.2 }, max: { type: 'number', default: 2.5 }, step: { type: 'number', default: 0.1 } },
+      schema: {
+        min: { type: 'number', default: 0.2 },
+        max: { type: 'number', default: 2.5 },
+        step: { type: 'number', default: 0.1 }
+      },
       init: function () {
         this.onWheel = this.onWheel.bind(this);
         window.addEventListener('wheel', this.onWheel, { passive: false });
@@ -34,17 +42,16 @@
         window.removeEventListener('wheel', this.onWheel);
       },
       onWheel: function (e) {
-        // 阻止页面滚动
         e.preventDefault();
         const object3D = this.el.object3D;
-        const current = object3D.scale.x; // 等比缩放
+        const current = object3D.scale.x;
         const delta = e.deltaY > 0 ? -this.data.step : this.data.step;
         const next = Math.min(this.data.max, Math.max(this.data.min, current + delta));
         object3D.scale.set(next, next, next);
       }
     });
 
-    // 双指捏合缩放组件（移动端）
+    // Pinch-to-scale component (mobile)
     AFRAME.registerComponent('pinch-scale', {
       schema: { min: { type: 'number', default: 0.2 }, max: { type: 'number', default: 2.5 } },
       init: function () {
@@ -119,51 +126,148 @@
 </head>
 
 <body>
-  <a-scene mindar-image="imageTargetSrc: targets.mind; maxTrack: 3; uiLoading: false; uiScanning: false;" embedded>
+  <a-scene mindar-image="imageTargetSrc: targets25.mind; maxTrack: 25; uiLoading: false; uiScanning: false;" embedded>
     <a-assets>
-      <a-asset-item id="targets" src="targets.mind"></a-asset-item>
-      <!-- 加载你的 GLB 模型 -->
+      <a-asset-item id="targets" src="targets25.mind"></a-asset-item>
+
+      <!-- Load original GLB models -->
       <a-asset-item id="model0" src="models/model2.glb"></a-asset-item>
       <a-asset-item id="model1" src="models/model0.glb"></a-asset-item>
       <a-asset-item id="model2" src="models/model1.glb"></a-asset-item>
-      <!-- 预加载图片资源 -->
+
+      <!-- Original images -->
       <img id="chair" src="imgPresent/chair.jpg" crossorigin="anonymous">
       <img id="light" src="imgPresent/light.jpg" crossorigin="anonymous">
       <img id="sofa" src="imgPresent/sofa.jpg" crossorigin="anonymous">
+
+      <!-- Designer introduction images -->
+      <img id="designer1" src="imgPresent/Ar designer introduction.jpg" crossorigin="anonymous">
+      <img id="designer2" src="imgPresent/Ar designer introduction2.jpg" crossorigin="anonymous">
+      <img id="designer3" src="imgPresent/Ar designer introduction3.jpg" crossorigin="anonymous">
+      <img id="designer4" src="imgPresent/Ar designer introduction4.jpg" crossorigin="anonymous">
+      <img id="designer5" src="imgPresent/Ar designer introduction5.jpg" crossorigin="anonymous">
+      <img id="designer6" src="imgPresent/Ar designer introduction7-1.jpg" crossorigin="anonymous">
+      <img id="designer7" src="imgPresent/Ar designer introduction7.jpg" crossorigin="anonymous">
+      <img id="designer8" src="imgPresent/Ar designer introduction8.jpg" crossorigin="anonymous">
     </a-assets>
 
     <a-camera position="0 0 0"></a-camera>
 
-    <!-- 基础光照，避免在移动端模型过暗不可见 -->
+    <!-- Basic lighting -->
     <a-entity light="type: ambient; intensity: 0.6"></a-entity>
     <a-entity light="type: directional; intensity: 0.8" position="0 1 1"></a-entity>
 
-    <!-- 目标 0：加载第一个 3D 模型 -->
+    <!-- Target 0 -->
     <a-entity mindar-image-target="targetIndex: 0">
       <a-entity gltf-model="#model0" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale pinch-scale>
       </a-entity>
-      <!-- 目标0 图片：使用 chair.jpg 替换原有图片 -->
-      <a-image src="#chair" width="1.0" height="1.21" anchor="center" baseline="top" position="0.45 -0.8 0.01"
-        rotation="0 0 0"></a-image>
+      <a-image src="#chair" width="1.0" height="1.21" position="0.45 -0.8 0.01" rotation="0 0 0"></a-image>
     </a-entity>
 
-    <!-- 目标 1：加载第二个 3D 模型 -->
+    <!-- Target 1 -->
     <a-entity mindar-image-target="targetIndex: 1">
       <a-entity gltf-model="#model1" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale pinch-scale>
       </a-entity>
-      <!-- 目标1 图片：使用 light.jpg 替换原有图片 -->
-      <a-image src="#light" width="1.0" height="1.21" anchor="center" baseline="top" position="0.45 -0.8 0.01"
-        rotation="0 0 0"></a-image>
+      <a-image src="#light" width="1.0" height="1.21" position="0.45 -0.8 0.01" rotation="0 0 0"></a-image>
     </a-entity>
 
-    <!-- 目标 2：加载第三个 3D 模型 -->
+    <!-- Target 2 -->
     <a-entity mindar-image-target="targetIndex: 2">
       <a-entity gltf-model="#model2" scale="0.8 0.8 0.8" position="0 0 0" rotation="90 0 0" wheel-scale pinch-scale>
       </a-entity>
-      <!-- 目标2 图片：使用 sofa.jpg 替换原有图片 -->
-      <a-image src="#sofa" width="1.0" height="1.21" anchor="center" baseline="top" position="0.45 -0.8 0.01"
-        rotation="0 0 0"></a-image>
+      <a-image src="#sofa" width="1.0" height="1.21" position="0.45 -0.8 0.01" rotation="0 0 0"></a-image>
     </a-entity>
+
+    <!-- New targets 3 - 24: show designer introduction images above the target -->
+
+    <a-entity mindar-image-target="targetIndex: 3">
+      <a-image src="#designer1" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 4">
+      <a-image src="#designer2" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 5">
+      <a-image src="#designer3" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 6">
+      <a-image src="#designer4" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 7">
+      <a-image src="#designer5" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 8">
+      <a-image src="#designer6" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 9">
+      <a-image src="#designer7" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 10">
+      <a-image src="#designer8" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 11">
+      <a-image src="#designer1" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 12">
+      <a-image src="#designer2" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 13">
+      <a-image src="#designer3" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 14">
+      <a-image src="#designer4" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 15">
+      <a-image src="#designer5" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 16">
+      <a-image src="#designer6" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 17">
+      <a-image src="#designer7" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 18">
+      <a-image src="#designer8" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 19">
+      <a-image src="#designer1" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 20">
+      <a-image src="#designer2" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 21">
+      <a-image src="#designer3" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 22">
+      <a-image src="#designer4" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 23">
+      <a-image src="#designer5" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
+    <a-entity mindar-image-target="targetIndex: 24">
+      <a-image src="#designer6" width="1.0" height="1.21" position="0 0.8 0.01" rotation="0 0 0"></a-image>
+    </a-entity>
+
   </a-scene>
 </body>
 

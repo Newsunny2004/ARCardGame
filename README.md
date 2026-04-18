@@ -1,4 +1,5 @@
 # AR Card Game (ARCardGame)
+Author： Zheyu ZHU
 
 An augmented reality card game project based on MindAR.js and A-Frame, enhancing traditional card game interactions through AR technology.
 
