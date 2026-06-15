@@ -28,6 +28,40 @@
       });
     });
 
+    function syncViewportSize() {
+      const viewport = window.visualViewport;
+      const width = viewport ? viewport.width : window.innerWidth;
+      const height = viewport ? viewport.height : window.innerHeight;
+      document.documentElement.style.setProperty('--app-width', `${width}px`);
+      document.documentElement.style.setProperty('--app-height', `${height}px`);
+
+      const scene = document.querySelector('a-scene');
+      if (!scene) return;
+
+      scene.style.width = `${width}px`;
+      scene.style.height = `${height}px`;
+
+      if (scene.renderer && scene.camera) {
+        scene.renderer.setSize(width, height, false);
+        scene.camera.aspect = width / height;
+        scene.camera.updateProjectionMatrix();
+      }
+    }
+
+    function queueViewportSync() {
+      syncViewportSize();
+      window.setTimeout(syncViewportSize, 250);
+      window.setTimeout(syncViewportSize, 800);
+    }
+
+    window.addEventListener('load', queueViewportSync);
+    window.addEventListener('resize', queueViewportSync);
+    window.addEventListener('orientationchange', queueViewportSync);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', queueViewportSync);
+      window.visualViewport.addEventListener('scroll', queueViewportSync);
+    }
+
     // Mouse wheel scaling component (desktop)
     AFRAME.registerComponent('wheel-scale', {
       schema: {
@@ -107,12 +141,17 @@
     });
   </script>
   <style>
+    :root {
+      --app-width: 100vw;
+      --app-height: 100vh;
+    }
+
     html,
     body {
       margin: 0;
       padding: 0;
-      width: 100%;
-      height: 100%;
+      width: var(--app-width);
+      height: var(--app-height);
       overflow: hidden;
       position: fixed;
       top: 0;
@@ -126,8 +165,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: var(--app-width);
+      height: var(--app-height);
       min-height: -webkit-fill-available;
     }
   </style>
